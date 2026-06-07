@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n="contact.title">联系 · Jessie Feng</title>
+  <meta name="description" data-i18n="contact.desc" content="联系Jessie Feng——大模型应用开发工程师，8 年后端与 Agent 开发经验。" />
+  <script defer src="js/i18n.js"></script>
+  <style>
+    :root {
+      --background: #f9f9f7;
+      --surface-low: #f3f4f2;
+      --surface-card: #ffffff;
+      --surface-high: #e6e9e6;
+      --ink: #2f3332;
+      --muted: #5c605e;
+      --outline: #afb3b0;
+      --primary: #7f5700;
+      --primary-bright: #feb300;
+      --primary-soft: #fff0c2;
+      --tertiary: #466370;
+      --shadow: 0 8px 32px rgba(47, 51, 50, 0.055);
+      --shadow-float: 0 22px 70px rgba(47, 51, 50, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      background: var(--background);
+      color: var(--ink);
+      font-family:
+        Manrope, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ── Mobile topbar ── */
+    .mobile-topbar {
+      display: none;
+    }
+
+    /* ── Shell + sidebar (shared with index.html) ── */
+    .shell {
+      height: 100vh;
+      display: flex;
+      background: var(--background);
+    }
+
+    .sidebar {
+      width: 18rem;
+      height: 100vh;
+      flex: 0 0 18rem;
+      padding: 3rem 1.25rem 2rem;
+      background: var(--surface-low);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .brand {
+      padding: 0 1rem 2.8rem;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.2rem;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .brand p {
+      margin: 0.45rem 0 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .nav-list,
+    .side-list {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .nav-link,
+    .side-link {
+      position: relative;
+      min-height: 3.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      color: rgba(47, 51, 50, 0.52);
+      font-weight: 760;
+      transition: transform 180ms ease, color 180ms ease, background 180ms ease;
+    }
+
+    .nav-link svg,
+    .side-link svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      flex: 0 0 auto;
+    }
+
+    .nav-link:hover,
+    .side-link:hover {
+      transform: translateX(4px);
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .nav-link.active {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.62);
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .nav-link.active::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.65rem;
+      bottom: 0.65rem;
+      width: 0.25rem;
+      border-radius: 999px;
+      background: var(--primary-bright);
+    }
+
+    .sidebar-cta {
+      width: calc(100% - 2rem);
+      margin: 2rem 1rem 0;
+      min-height: 3.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-bright));
+      box-shadow: 0 12px 30px rgba(127, 87, 0, 0.22);
+      font-weight: 900;
+    }
+
+    /* ── Lang toggle (top-right corner) ── */
+    .lang-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1.5rem;
+      z-index: 20;
+      display: inline-flex;
+      gap: 0.25rem;
+      padding: 0.3rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .lang-btn {
+      min-height: 1.9rem;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 0.75rem;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: rgba(47, 51, 50, 0.45);
+      font-family: inherit;
+      font-size: 0.76rem;
+      font-weight: 850;
+      cursor: pointer;
+      transition: color 180ms ease, background 180ms ease;
+    }
+
+    .lang-btn:hover {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .lang-btn.active {
+      color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    /* ── Main area ── */
+    .main-area {
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 100vh;
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* ── Contact card ── */
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface-card);
+      border-radius: 1rem;
+      padding: 2.5rem;
+      box-shadow: var(--shadow-float);
+      text-align: center;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.55rem;
+      font-weight: 900;
+      line-height: 1.22;
+    }
+
+    .card .subtitle {
+      margin: 0.55rem 0 2rem;
+      color: var(--tertiary);
+      font-size: 0.92rem;
+      font-weight: 760;
+    }
+
+    .info-block {
+      margin-bottom: 2rem;
+      padding: 1.25rem;
+      border-radius: 0.75rem;
+      background: var(--surface-low);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.5rem 0;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+
+    .info-item+.info-item {
+      border-top: 1px solid rgba(175, 179, 176, 0.25);
+    }
+
+    .info-item svg {
+      width: 1.15rem;
+      height: 1.15rem;
+      color: var(--primary);
+      flex: 0 0 auto;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      min-height: 2.65rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0 1.25rem;
+      border-radius: 999px;
+      background: var(--surface-low);
+      font-size: 0.88rem;
+      font-weight: 850;
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button.primary {
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-bright));
+      box-shadow: 0 12px 30px rgba(127, 87, 0, 0.22);
+    }
+
+    .note {
+      margin-top: 2rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      body {
+        overflow: auto;
+      }
+
+      .shell {
+        display: block;
+        height: auto;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .mobile-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        min-height: 4.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.8rem 1rem;
+        background: rgba(249, 249, 247, 0.88);
+        box-shadow: 0 8px 32px rgba(47, 51, 50, 0.04);
+        backdrop-filter: blur(16px);
+      }
+
+      .mobile-topbar strong {
+        font-size: 1rem;
+      }
+
+      .mobile-topbar nav {
+        display: flex;
+        gap: 0.35rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .mobile-topbar nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .mobile-topbar a {
+        flex: 0 0 auto;
+        min-height: 2rem;
+        display: inline-flex;
+        align-items: center;
+        padding: 0 0.72rem;
+        border-radius: 999px;
+        background: var(--surface-low);
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 850;
+      }
+
+      .main-area {
+        height: auto;
+        overflow: visible;
+        padding: 2rem 1rem;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .mobile-topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .mobile-topbar nav {
+        width: 100%;
+      }
+
+      .card {
+        padding: 2rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang="zh" onclick="I18N.setLang('zh')" aria-label="中文">中</button>
+    <button class="lang-btn" data-lang="en" onclick="I18N.setLang('en')" aria-label="English">EN</button>
+  </div>
+
+  <header class="mobile-topbar">
+    <strong>Jessie Feng</strong>
+    <nav data-i18n-attr-aria-label="aria.mobileNav" aria-label="移动端导航">
+      <a href="index.html" data-i18n="mobile.home">主页</a>
+      <a href="contact.html" data-i18n="mobile.contact">联系</a>
+    </nav>
+  </header>
+
+  <div class="shell">
+    <!-- ═══ Shared Sidebar ═══ -->
+    <aside class="sidebar" data-i18n-attr-aria-label="aria.mainNav" aria-label="主导航">
+      <div>
+        <div class="brand">
+          <h1 data-i18n="brand.title">LLM 应用工程 · 后端架构</h1>
+          <p data-i18n="brand.subtitle">Jessie Feng · 个人主页</p>
+        </div>
+
+        <nav class="nav-list">
+          <a class="nav-link" href="index.html">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 8a7 7 0 1 0-14 0" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" />
+            </svg>
+            <span data-i18n="nav.bio">Bio Node</span>
+          </a>
+          <a class="nav-link active" href="contact.html">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M4 6h16v12H4V6Zm0 1 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <span data-i18n="nav.contact">Contact</span>
+          </a>
+        </nav>
+
+        <a class="sidebar-cta" href="mailto:bigface.kitty@outlook.com" data-i18n="cta.text">联系我</a>
+      </div>
+
+      <div class="side-list">
+        <a class="side-link" href="index.html#projects">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+            <path d="M5 7h14M5 12h14M5 17h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <span data-i18n="side.archive">Archive</span>
+        </a>
+        <a class="side-link" href="contact.html">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+            <path d="M12 21s7-4.7 7-11a7 7 0 1 0-14 0c0 6.3 7 11 7 11Zm0-8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+              stroke="currentColor" stroke-width="2" />
+          </svg>
+          <span data-i18n="side.location">Remote / 深圳</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ═══ Contact Content ═══ -->
+    <main class="main-area">
+      <div class="card">
+        <h2 data-i18n="contact.heading">联系我</h2>
+        <p class="subtitle" data-i18n="contact.subtitle">欢迎交流大模型应用、后端架构或长期合作</p>
+
+        <div class="info-block">
+          <div class="info-item">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M4 6h16v12H4V6Zm0 1 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <span>bigface.kitty@outlook.com</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a class="button primary" href="mailto:bigface.kitty@outlook.com" data-i18n="contact.emailBtn">发送邮件</a>
+          <a class="button" href="https://github.com/tallyblue123" target="_blank" rel="noreferrer" data-i18n="contact.githubBtn">GitHub</a>
+        </div>
+
+        <p class="note" data-i18n="contact.note">目前在深圳，支持远程协作。邮件和 GitHub 私信都能找到我。</p>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

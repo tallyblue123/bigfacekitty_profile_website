@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI &amp; Backend Engineer Workspace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f9f9f7",
+                        "on-background": "#2f3332",
+                        "surface-container-low": "#f3f4f2",
+                        "surface": "#f9f9f7",
+                        "primary": "#7f5700",
+                        "on-primary-container": "#523700",
+                        "on-tertiary-fixed": "#2a4753",
+                        "primary-dim": "#704c00",
+                        "secondary-container": "#d1e4ff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e0e3e0",
+                        "tertiary": "#466370",
+                        "outline": "#777c79",
+                        "tertiary-fixed-dim": "#c0dfee",
+                        "background": "#f9f9f7",
+                        "secondary-fixed": "#d1e4ff",
+                        "on-error": "#fff7f6",
+                        "on-secondary-container": "#00548f",
+                        "on-tertiary-container": "#3c5966",
+                        "secondary-dim": "#005691",
+                        "error": "#a73b21",
+                        "on-secondary-fixed-variant": "#005e9f",
+                        "primary-container": "#feb300",
+                        "secondary": "#0062a5",
+                        "primary-fixed": "#feb300",
+                        "on-secondary": "#f7f9ff",
+                        "primary-fixed-dim": "#eda600",
+                        "tertiary-fixed": "#ceedfd",
+                        "on-primary-fixed-variant": "#5e4000",
+                        "on-secondary-fixed": "#004171",
+                        "error-dim": "#791903",
+                        "surface-container-high": "#e6e9e6",
+                        "outline-variant": "#afb3b0",
+                        "on-surface-variant": "#5c605e",
+                        "tertiary-dim": "#3a5764",
+                        "on-primary-fixed": "#382400",
+                        "on-error-container": "#6e1400",
+                        "inverse-on-surface": "#9c9d9b",
+                        "inverse-surface": "#0c0f0e",
+                        "surface-variant": "#e0e3e0",
+                        "on-primary": "#fff8f2",
+                        "error-container": "#fd795a",
+                        "secondary-fixed-dim": "#b8d7ff",
+                        "tertiary-container": "#ceedfd",
+                        "inverse-primary": "#feb300",
+                        "surface-container": "#eceeec",
+                        "on-surface": "#2f3332",
+                        "on-tertiary": "#f3faff",
+                        "on-tertiary-fixed-variant": "#466370",
+                        "surface-tint": "#7f5700",
+                        "surface-dim": "#d7dbd8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Inter"]
+                    },
+                    "backgroundImage": {
+                        "dot-pattern": "radial-gradient(circle at center, rgba(175, 179, 176, 0.15) 1px, transparent 1px)"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .dot-grid {
+            background-size: 24px 24px;
+            background-image: radial-gradient(circle at center, rgba(175, 179, 176, 0.3) 1px, transparent 1px);
+        }
+        .connection-line {
+            position: absolute;
+            z-index: 0;
+            stroke: rgba(175, 179, 176, 0.4);
+            stroke-width: 1.5px;
+            fill: none;
+            stroke-dasharray: 4;
+        }
+        .canvas-card {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+<style>
+@keyframes cat-play {
+  0%, 100% { transform: perspective(1000px) translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1); }
+  15% { transform: perspective(1000px) translate3d(15px, 5px, 30px) rotateX(-5deg) rotateY(-10deg) rotateZ(-3deg) scale3d(1.1, 0.9, 1); } /* Stretching forward */
+  30% { transform: perspective(1000px) translate3d(0, -20px, 0) rotateX(10deg) rotateY(0deg) rotateZ(0deg) scale3d(0.95, 1.2, 1); } /* Arching back */
+  45% { transform: perspective(1000px) translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1); }
+  60% { transform: perspective(1000px) translate3d(20px, -10px, 50px) rotateX(20deg) rotateY(180deg) rotateZ(10deg) scale(0.9); } /* Rolling over halfway */
+  75% { transform: perspective(1000px) translate3d(30px, 0, 0) rotateX(0deg) rotateY(360deg) rotateZ(0deg) scale(0.95); } /* Rolling complete */
+  90% { transform: perspective(1000px) translate3d(0, 0, 0) rotateX(0deg) rotateY(360deg) rotateZ(0deg) scale(1); }
+}
+.cat-companion {
+  animation: cat-play 14s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: bottom center;
+}
+</style></head>
+<body class="bg-background text-on-surface font-body overflow-x-hidden h-screen w-full flex">
+<!-- TopAppBar for Mobile -->
+<header class="md:hidden bg-[#f9f9f7]/80 backdrop-blur-xl dark:bg-zinc-900/80 text-[#7f5700] dark:text-[#feb300] font-['Manrope'] tracking-tight antialiased docked full-width top-0 sticky z-50 shadow-[0_8px_32px_rgba(47,51,50,0.04)] flex justify-between items-center w-full px-8 py-4 border-b border-[#f3f4f2]/50 dark:border-zinc-800/50">
+<div class="text-xl font-bold tracking-tighter text-[#2f3332] dark:text-zinc-100">The AI Curator</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:text-[#7f5700] transition-all">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-[#7f5700] transition-all">account_circle</span>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="hidden md:flex h-screen w-72 fixed left-0 top-0 z-40 bg-[#f3f4f2] dark:bg-zinc-900 font-['Manrope'] text-sm font-medium flex-col justify-between" style="border-right: none;">
+<div class="flex flex-col gap-2 pt-12 pb-8 px-4">
+<div class="mb-10 px-4">
+<h1 class="text-lg font-extrabold text-[#2f3332] dark:text-zinc-100 mb-1">Backend/AI Workspace</h1>
+<p class="text-on-surface-variant text-xs">V 2.0.4 - Active</p>
+</div>
+<a class="flex items-center gap-3 py-3 px-4 text-[#2f3332] dark:text-zinc-100 font-bold border-l-4 border-[#feb300] bg-[#ffffff]/50 dark:bg-zinc-800/50 rounded-r-lg relative" href="#">
+<span class="material-symbols-outlined">person</span>
+                Bio Node
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 text-[#2f3332]/50 dark:text-zinc-500 hover:bg-[#ffffff]/30 dark:hover:bg-zinc-800/30 transition-all hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">layers</span>
+                Stack Layers
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 text-[#2f3332]/50 dark:text-zinc-500 hover:bg-[#ffffff]/30 dark:hover:bg-zinc-800/30 transition-all hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+                Repository Map
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 text-[#2f3332]/50 dark:text-zinc-500 hover:bg-[#ffffff]/30 dark:hover:bg-zinc-800/30 transition-all hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">description</span>
+                Blog Nodes
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 text-[#2f3332]/50 dark:text-zinc-500 hover:bg-[#ffffff]/30 dark:hover:bg-zinc-800/30 transition-all hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">rss_feed</span>
+                Douyin Feed
+            </a>
+<div class="mt-8 px-4">
+<button class="w-full py-3 rounded-full bg-gradient-to-br from-primary to-primary-container text-surface-container-lowest font-bold text-sm shadow-[0_4px_16px_rgba(127,87,0,0.2)] hover:opacity-90 transition-opacity">
+                    Create New Node
+                </button>
+</div>
+</div>
+<div class="flex flex-col gap-2 pb-8 px-4">
+<a class="flex items-center gap-3 py-3 px-4 text-[#2f3332]/50 dark:text-zinc-500 hover:bg-[#ffffff]/30 dark:hover:bg-zinc-800/30 transition-all hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">archive</span>
+                Archive
+            </a>
+<a class="flex items-center gap-3 py-3 px-4 text-[#2f3332]/50 dark:text-zinc-500 hover:bg-[#ffffff]/30 dark:hover:bg-zinc-800/30 transition-all hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">delete</span>
+                Trash
+            </a>
+</div>
+</nav>
+<!-- Main Infinite Canvas -->
+<main class="md:ml-72 flex-1 relative w-full h-full overflow-auto dot-grid p-8 md:p-16">
+<!-- SVG Connections (Decorative logic representation) -->
+<svg class="absolute top-0 left-0 w-full h-full pointer-events-none" style="z-index: 0; min-width: 1200px; min-height: 800px;">
+<path class="connection-line" d="M400,300 Q500,200 650,220"></path>
+<path class="connection-line" d="M400,350 Q500,500 600,480"></path>
+<path class="connection-line" d="M200,300 Q150,150 250,100"></path>
+</svg>
+<div class="relative w-full h-full min-w-[1000px] min-h-[800px]">
+<!-- Central Bio Node -->
+<div class="canvas-card absolute top-[20%] left-[25%] w-80 bg-surface-container-lowest rounded-xl p-6 shadow-[0_8px_32px_rgba(47,51,50,0.06)] hover:bg-surface-bright transition-colors duration-300">
+<div class="absolute -top-3 -right-3 w-8 h-8 bg-primary-container rounded-full flex items-center justify-center text-on-primary-container shadow-md rotate-12">
+<span class="material-symbols-outlined text-sm">push_pin</span>
+</div>
+<div class="flex flex-col items-center text-center">
+<img alt="Profile" class="w-24 h-24 rounded-full mb-4 object-cover border-4 border-surface-container-low" data-alt="professional headshot of an asian male engineer with glasses in natural warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJs_PL_eUc9P04_mQQLEhasK7XjDSbM6nrJw0cLQqIil1CCWMNeHcQ3i5pzzjA_jK8ShAOEh9Rbi4gdf2N2mSmcIKoITRTUtiSU-_R0UBUMICZFF6hy9-f2mjU_ZGV4H_NlaHrBu2UazpLAOzl-D3OK5g5B6IdaIis9S5j602pVVv5rr8JPnuAkZ0-UZrxSHYv9e5PLfeSqBLMiSlE5Ao9dp4H-JpZGpMhppSAAVw14dqT_ACbUP8_1oZIj7C4pnRAH99Wd2X5tjU"/>
+<h2 class="font-headline font-bold text-xl text-on-background mb-1">Alex Chen</h2>
+<p class="text-tertiary font-label text-sm mb-4">Senior AI &amp; Backend Engineer</p>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Building scalable machine learning infrastructure and robust backend systems. Turning research into production-ready APIs.</p>
+<div class="flex gap-3">
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-primary-container/20 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">mail</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-primary-container/20 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">link</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Tech Stack Node -->
+<div class="canvas-card absolute top-[5%] left-[60%] w-72 bg-surface-container-lowest rounded-xl p-6 shadow-[0_8px_32px_rgba(47,51,50,0.04)] hover:bg-surface-bright transition-colors duration-300 border border-outline-variant/20">
+<div class="flex items-center gap-2 mb-4 pb-2 border-b border-surface-container-high">
+<span class="material-symbols-outlined text-primary">layers</span>
+<h3 class="font-headline font-bold text-on-background">Stack Layers</h3>
+</div>
+<div class="space-y-4">
+<div>
+<p class="text-xs font-label text-tertiary mb-2 uppercase tracking-wider">AI / ML</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container-low text-on-surface text-xs rounded-full font-medium">PyTorch</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface text-xs rounded-full font-medium">TensorFlow</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface text-xs rounded-full font-medium">Transformers</span>
+</div>
+</div>
+<div>
+<p class="text-xs font-label text-tertiary mb-2 uppercase tracking-wider">Backend</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container-low text-on-surface text-xs rounded-full font-medium">Python</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface text-xs rounded-full font-medium">Go</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface text-xs rounded-full font-medium">FastAPI</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface text-xs rounded-full font-medium">PostgreSQL</span>
+</div>
+</div>
+<div>
+<p class="text-xs font-label text-tertiary mb-2 uppercase tracking-wider">Infra</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container-low text-on-surface text-xs rounded-full font-medium">Docker</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface text-xs rounded-full font-medium">Kubernetes</span>
+<span class="px-3 py-1 bg-surface-container-low text-on-surface text-xs rounded-full font-medium">AWS</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Repository Map Node -->
+<div class="canvas-card absolute top-[45%] left-[55%] w-80 bg-surface-container-lowest rounded-xl p-6 shadow-[0_8px_32px_rgba(47,51,50,0.04)] hover:bg-surface-bright transition-colors duration-300">
+<div class="absolute left-0 top-6 w-1 h-8 bg-primary-fixed rounded-r"></div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">account_tree</span>
+<h3 class="font-headline font-bold text-on-background">Repository Map</h3>
+</div>
+<div class="space-y-3">
+<div class="p-3 bg-surface-container-low rounded-lg hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-semibold text-sm text-on-background">neuro-infer</h4>
+<span class="text-xs text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">star</span> 1.2k</span>
+</div>
+<p class="text-xs text-on-surface-variant mb-2">Optimized inference engine for LLMs using custom CUDA kernels.</p>
+<div class="flex gap-2">
+<div class="w-2 h-2 rounded-full bg-[#3572A5] mt-1"></div>
+<span class="text-[10px] text-tertiary font-label">Python</span>
+</div>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-semibold text-sm text-on-background">go-stream-ml</h4>
+<span class="text-xs text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">star</span> 850</span>
+</div>
+<p class="text-xs text-on-surface-variant mb-2">High-throughput streaming pipeline for real-time model predictions.</p>
+<div class="flex gap-2">
+<div class="w-2 h-2 rounded-full bg-[#00ADD8] mt-1"></div>
+<span class="text-[10px] text-tertiary font-label">Go</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Note / Post-it accent -->
+<div class="canvas-card absolute top-[10%] left-[10%] w-48 bg-primary-container/20 rounded-lg p-4 shadow-sm border border-primary-container/30 -rotate-3 backdrop-blur-sm">
+<span class="material-symbols-outlined text-primary mb-2">lightbulb</span>
+<p class="font-label text-xs text-on-primary-container leading-relaxed">Currently exploring distributed training strategies for sparse MoE models. Hit me up to chat!</p>
+</div>
+</div>
+</main>
+<div class="fixed bottom-4 left-4 md:left-80 z-50 pointer-events-none">
+<div class="cat-companion w-48 h-48 md:w-64 md:h-64">
+<img alt="Black Cat Companion" class="w-full h-full object-contain drop-shadow-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqlQiHZ-ZUqPnhvGMS5ENrzgnPn1UpaKjxeKL7iGgNVILxt5QOwfQi1Z9uz9mh4JHQJ1ObwCmqD08gBCJrxwf7P3FBkSoYn7Mrw24BsSDhlXCzG3mYBUUxmLboDWL3pWsj7PLsSZgM9I81lmNulSryzPK8pOiHB5VaeNUIYz-0nuQIMqRSZGIMV7YL0-xgWnfpmwMhyWXq958Pc7dgbzqOurt9oxlNxge-1CYl5rTkodPeawpT1KTUpkl4ZaokmVE70EgvMZJ92f0"/>
+</div>
+</div></body></html>

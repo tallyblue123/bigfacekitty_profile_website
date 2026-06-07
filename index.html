@@ -1,0 +1,1158 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n="site.title">Jessie Feng | 大模型应用 · 后端工程</title>
+  <meta name="description" data-i18n="site.desc" content="Jessie Feng的个人主页，8 年后端与 Agent 应用开发经验，展示技术栈、项目经历和联系方式。" />
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script defer src="js/i18n.js"></script>
+  <style>
+    :root {
+      --background: #f9f9f7;
+      --surface-low: #f3f4f2;
+      --surface-card: #ffffff;
+      --surface-high: #e6e9e6;
+      --ink: #2f3332;
+      --muted: #5c605e;
+      --outline: #afb3b0;
+      --primary: #7f5700;
+      --primary-bright: #feb300;
+      --primary-soft: #fff0c2;
+      --tertiary: #466370;
+      --shadow: 0 8px 32px rgba(47, 51, 50, 0.055);
+      --shadow-float: 0 22px 70px rgba(47, 51, 50, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      background: var(--background);
+      color: var(--ink);
+      font-family:
+        Manrope, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .mobile-topbar {
+      display: none;
+    }
+
+    .shell {
+      height: 100vh;
+      display: flex;
+      background: var(--background);
+    }
+
+    .sidebar {
+      width: 18rem;
+      height: 100vh;
+      flex: 0 0 18rem;
+      padding: 3rem 1.25rem 2rem;
+      background: var(--surface-low);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .brand {
+      padding: 0 1rem 2.8rem;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.2rem;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .brand p {
+      margin: 0.45rem 0 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .nav-list,
+    .side-list {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .nav-link,
+    .side-link {
+      position: relative;
+      min-height: 3.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      color: rgba(47, 51, 50, 0.52);
+      font-weight: 760;
+      transition:
+        transform 180ms ease,
+        color 180ms ease,
+        background 180ms ease;
+    }
+
+    .nav-link svg,
+    .side-link svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      flex: 0 0 auto;
+    }
+
+    .nav-link:hover,
+    .side-link:hover {
+      transform: translateX(4px);
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .nav-link.active {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.62);
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .nav-link.active::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.65rem;
+      bottom: 0.65rem;
+      width: 0.25rem;
+      border-radius: 999px;
+      background: var(--primary-bright);
+    }
+
+    .sidebar-cta {
+      width: calc(100% - 2rem);
+      margin: 2rem 1rem 0;
+      min-height: 3.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-bright));
+      box-shadow: 0 12px 30px rgba(127, 87, 0, 0.22);
+      font-weight: 900;
+    }
+
+    /* ── Lang toggle (top-right corner) ── */
+    .lang-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1.5rem;
+      z-index: 20;
+      display: inline-flex;
+      gap: 0.25rem;
+      padding: 0.3rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .lang-btn {
+      min-height: 1.9rem;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 0.75rem;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: rgba(47, 51, 50, 0.45);
+      font-family: inherit;
+      font-size: 0.76rem;
+      font-weight: 850;
+      cursor: pointer;
+      transition: color 180ms ease, background 180ms ease;
+    }
+
+    .lang-btn:hover {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .lang-btn.active {
+      color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .canvas-viewport {
+      position: relative;
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 100vh;
+      overflow: auto;
+      overscroll-behavior: contain;
+    }
+
+    .workspace {
+      position: relative;
+      width: 1200px;
+      min-height: 1180px;
+      padding: 0;
+    }
+
+    #workspaceCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .node {
+      position: absolute;
+      z-index: 2;
+      background: var(--surface-card);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+    }
+
+    .node:hover {
+      transform: translateY(-2px);
+      background: #fffefa;
+      box-shadow: var(--shadow-float);
+    }
+
+    .node-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .node-header svg {
+      width: 1.35rem;
+      height: 1.35rem;
+      color: var(--primary);
+    }
+
+    .node-header h2,
+    .node-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+    .bio-node {
+      top: 185px;
+      left: 355px;
+      width: 320px;
+      min-height: 378px;
+      text-align: center;
+    }
+
+    .bio-pin {
+      position: absolute;
+      top: -0.9rem;
+      right: -0.9rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #523700;
+      background: var(--primary-bright);
+      box-shadow: 0 10px 24px rgba(127, 87, 0, 0.2);
+      transform: rotate(12deg);
+    }
+
+    .bio-avatar {
+      width: 7rem;
+      height: 7rem;
+      margin: 0 auto 1rem;
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--surface-low);
+      box-shadow: inset 0 0 0 0.45rem var(--surface-low);
+    }
+
+    .bio-avatar img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .bio-node h2 {
+      margin: 0;
+      font-size: 1.55rem;
+      line-height: 1.22;
+      font-weight: 900;
+    }
+
+    .role {
+      margin: 0.45rem 0 1.1rem;
+      color: var(--tertiary);
+      font-size: 0.92rem;
+      font-weight: 760;
+    }
+
+    .bio-copy {
+      margin: 0 auto;
+      max-width: 16.5rem;
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.68;
+    }
+
+    .bio-actions {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 1.35rem;
+    }
+
+    .round-action {
+      width: 2.75rem;
+      height: 2.75rem;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--surface-low);
+      color: var(--ink);
+      transition:
+        background 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
+    }
+
+    .round-action:hover {
+      transform: translateY(-2px);
+      background: rgba(254, 179, 0, 0.2);
+      color: var(--primary);
+    }
+
+    .round-action svg {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+
+    .stack-node {
+      top: 76px;
+      left: 780px;
+      width: 288px;
+    }
+
+    .project-node {
+      top: 560px;
+      left: 955px;
+      width: 320px;
+    }
+
+    .project-node::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 2rem;
+      width: 0.3rem;
+      height: 2.1rem;
+      border-radius: 0 999px 999px 0;
+      background: var(--primary-bright);
+    }
+
+    .personal-node {
+      top: 730px;
+      left: 500px;
+      width: 422px;
+    }
+
+    .personal-node::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 2rem;
+      width: 0.3rem;
+      height: 2.1rem;
+      border-radius: 0 999px 999px 0;
+      background: var(--primary-bright);
+    }
+
+    .project-entry .project-thumb {
+      width: calc(100% + 2rem);
+      height: 100px;
+      margin: -0.95rem -1rem 0.65rem -1rem;
+      border-radius: 0.65rem 0.65rem 0 0;
+      overflow: hidden;
+      background: var(--surface-low);
+    }
+
+    .project-entry .project-thumb img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .note-node {
+      top: 95px;
+      left: 140px;
+      width: 244px;
+      background: rgba(255, 240, 194, 0.84);
+      box-shadow: 0 12px 36px rgba(127, 87, 0, 0.09);
+      transform: rotate(-3deg);
+      backdrop-filter: blur(8px);
+    }
+
+    .note-node:hover {
+      transform: rotate(-2deg) translateY(-2px);
+    }
+
+    .note-node p {
+      margin: 0.55rem 0 0;
+      color: #523700;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      font-weight: 720;
+    }
+
+    .skill-group+.skill-group {
+      margin-top: 1.1rem;
+    }
+
+    .skill-label {
+      margin: 0 0 0.55rem;
+      color: var(--tertiary);
+      font-size: 0.76rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .pill {
+      min-height: 1.9rem;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 0.78rem;
+      border-radius: 999px;
+      background: var(--surface-low);
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 760;
+    }
+
+    .project-list,
+    .timeline-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .project-entry,
+    .timeline-entry {
+      overflow: hidden;
+      padding: 0.95rem 1rem;
+      border-radius: 0.65rem;
+      background: var(--surface-low);
+    }
+
+    .entry-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.9rem;
+    }
+
+    .entry-top h4 {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.34;
+      font-weight: 900;
+    }
+
+    .entry-top span {
+      color: var(--tertiary);
+      font-size: 0.74rem;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .project-entry p,
+    .timeline-entry p {
+      margin: 0.45rem 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    .button {
+      min-height: 2.35rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0 0.85rem;
+      border-radius: 999px;
+      background: var(--surface-low);
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    .button.primary {
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--primary-bright));
+    }
+
+    .cat-stage {
+      position: fixed;
+      left: clamp(4rem, 8vw, 8rem);
+      bottom: 4rem;
+      width: min(460px, 33vw);
+      height: min(500px, 45vh);
+      z-index: 6;
+      pointer-events: none;
+    }
+
+    .cat-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .cat-model {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: pointer;
+      filter: drop-shadow(0 16px 28px rgba(47, 51, 50, 0.13));
+      --poster-color: transparent;
+      background: transparent;
+      border-radius: 1rem;
+      pointer-events: auto;
+    }
+
+    .cat-model::part(default-progress-bar) {
+      display: none;
+    }
+
+    .chat-bubble {
+      position: absolute;
+      left: 56%;
+      bottom: 70%;
+      width: 228px;
+      min-height: 4.8rem;
+      padding: 0.85rem 1rem;
+      border-radius: 0.85rem;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+      transform-origin: right bottom;
+      pointer-events: none;
+      transition:
+        opacity 180ms ease,
+        transform 180ms ease;
+    }
+
+    .chat-bubble::after {
+      content: "";
+      position: absolute;
+      right: 18px;
+      bottom: -10px;
+      width: 18px;
+      height: 18px;
+      border-radius: 0 0 0 0.25rem;
+      background: rgba(255, 255, 255, 0.84);
+      transform: rotate(45deg);
+    }
+
+    .chat-bubble.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .chat-bubble strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--primary);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+
+    .chat-bubble p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .canvas-hint {
+      position: absolute;
+      z-index: 1;
+      right: 29rem;
+      bottom: 2rem;
+      color: rgba(47, 51, 50, 0.34);
+      font-size: 0.78rem;
+      font-weight: 760;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        overflow: auto;
+      }
+
+      .shell {
+        display: block;
+        height: auto;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .mobile-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        min-height: 4.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.8rem 1rem;
+        background: rgba(249, 249, 247, 0.88);
+        box-shadow: 0 8px 32px rgba(47, 51, 50, 0.04);
+        backdrop-filter: blur(16px);
+      }
+
+      .mobile-topbar strong {
+        font-size: 1rem;
+      }
+
+      .mobile-topbar nav {
+        display: flex;
+        gap: 0.35rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .mobile-topbar nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .mobile-topbar a {
+        flex: 0 0 auto;
+        min-height: 2rem;
+        display: inline-flex;
+        align-items: center;
+        padding: 0 0.72rem;
+        border-radius: 999px;
+        background: var(--surface-low);
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 850;
+      }
+
+      .canvas-viewport {
+        height: auto;
+        overflow: visible;
+      }
+
+      .workspace {
+        width: auto;
+        min-height: 0;
+        padding: 1rem;
+        display: grid;
+        gap: 1rem;
+      }
+
+      #workspaceCanvas,
+      .canvas-hint {
+        display: none;
+      }
+
+      .node,
+      .bio-node,
+      .stack-node,
+      .project-node,
+      .note-node,
+      .personal-node,
+      .cat-stage {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: auto;
+      }
+
+      .note-node,
+      .note-node:hover {
+        transform: none;
+      }
+
+      .bio-node {
+        order: 1;
+        min-height: auto;
+      }
+
+      .cat-stage {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        width: auto;
+        height: auto;
+        order: 2;
+        display: flex;
+        justify-content: center;
+        padding: 0.5rem 0 1rem;
+        pointer-events: auto;
+      }
+
+      .cat-wrap {
+        width: min(300px, 92vw);
+        height: min(330px, 96vw);
+      }
+
+      .cat-model {
+        width: 100%;
+        height: 100%;
+      }
+
+      .chat-bubble {
+        left: 50%;
+        bottom: 196px;
+        width: min(230px, 84vw);
+        transform: translate(-50%, 8px) scale(0.96);
+      }
+
+      .chat-bubble.visible {
+        transform: translate(-50%, 0) scale(1);
+      }
+
+      .chat-bubble::after {
+        left: 50%;
+        margin-left: -9px;
+      }
+
+      .note-node {
+        order: 3;
+      }
+
+      .stack-node {
+        order: 4;
+      }
+
+      .project-node {
+        order: 5;
+      }
+
+      .personal-node {
+        order: 6;
+      }
+
+    }
+
+    @media (max-width: 520px) {
+      .mobile-topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .mobile-topbar nav {
+        width: 100%;
+      }
+
+      .node {
+        padding: 1.15rem;
+      }
+
+      .bio-node h2 {
+        font-size: 1.35rem;
+      }
+
+      .entry-top {
+        display: block;
+      }
+
+      .entry-top span {
+        display: inline-block;
+        margin-top: 0.25rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang="zh" onclick="I18N.setLang('zh')" aria-label="中文">中</button>
+    <button class="lang-btn" data-lang="en" onclick="I18N.setLang('en')" aria-label="English">EN</button>
+  </div>
+
+  <header class="mobile-topbar">
+    <strong>Jessie Feng</strong>
+    <nav data-i18n-attr-aria-label="aria.mobileNav" aria-label="移动端导航">
+      <a href="#bio" data-i18n="mobile.bio">简介</a>
+      <a href="#stack" data-i18n="mobile.stack">技术</a>
+      <a href="#projects" data-i18n="mobile.projects">项目</a>
+      <a href="contact.html" data-i18n="mobile.contact">联系</a>
+    </nav>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar" data-i18n-attr-aria-label="aria.mainNav" aria-label="主导航">
+      <div>
+        <div class="brand">
+          <h1 data-i18n="brand.title">LLM 应用工程 · 后端架构</h1>
+          <p data-i18n="brand.subtitle">Jessie Feng · 个人主页</p>
+        </div>
+
+        <nav class="nav-list">
+          <a class="nav-link active" href="#bio">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 8a7 7 0 1 0-14 0" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" />
+            </svg>
+            <span data-i18n="nav.bio">Bio Node</span>
+          </a>
+          <a class="nav-link" href="contact.html">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M4 6h16v12H4V6Zm0 1 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <span data-i18n="nav.contact">Contact</span>
+          </a>
+        </nav>
+
+        <a class="sidebar-cta" href="contact.html" data-i18n="cta.text">联系我</a>
+      </div>
+
+      <div class="side-list">
+        <a class="side-link" href="#projects">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+            <path d="M5 7h14M5 12h14M5 17h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <span data-i18n="side.archive">Archive</span>
+        </a>
+        <a class="side-link" href="contact.html">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+            <path d="M12 21s7-4.7 7-11a7 7 0 1 0-14 0c0 6.3 7 11 7 11Zm0-8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+              stroke="currentColor" stroke-width="2" />
+          </svg>
+          <span data-i18n="side.location">Remote / 深圳</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="canvas-viewport" id="canvasViewport">
+      <section class="workspace" id="workspace" data-i18n-attr-aria-label="aria.workspace" aria-label="个人介绍画布">
+        <canvas id="workspaceCanvas" aria-hidden="true"></canvas>
+
+        <article class="node note-node">
+          <div class="node-header">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M9 18h6m-5 3h4M8 14a6 6 0 1 1 8 0c-.9.7-1.3 1.4-1.5 2h-5C9.3 15.4 8.9 14.7 8 14Z"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <h3 data-i18n="focus.title">Focus</h3>
+          </div>
+          <p data-i18n="focus.text">正在将 LLM 应用工程经验、后端架构能力和 Agent 开发实践沉淀为可展示的个人技术主页。</p>
+        </article>
+
+        <article class="node bio-node" id="bio">
+          <div class="bio-pin" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+              <path d="m14 4 6 6-3 1-3 7-2-2-4 4-4-4 4-4-2-2 7-3 1-3Z" stroke="currentColor" stroke-width="2"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <figure class="bio-avatar">
+            <img src="assets/bigfacekitty-mascot.jpg" data-i18n-attr-alt="alt.avatar" alt="Jessie Feng 头像" />
+          </figure>
+          <h2 data-i18n="bio.name">Jessie Feng</h2>
+          <p class="role" data-i18n="bio.role">大模型应用开发 · 后端工程师</p>
+          <p class="bio-copy" data-i18n="bio.text">
+            8 年工作经验，7 年后端 + 1 年 Agent 应用开发。专注大模型应用工程、RAG 全流程与多智能体协作，具备从 Prompt 设计到服务化部署的端到端落地能力。
+          </p>
+          <div class="bio-actions">
+            <a class="round-action" href="mailto:bigface.kitty@outlook.com" data-i18n-attr-aria-label="aria.sendEmail"
+              aria-label="发送邮件">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M4 6h16v12H4V6Zm0 1 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </a>
+            <a class="round-action" href="https://github.com/BigFaceKitty" target="_blank" rel="noreferrer"
+              data-i18n-attr-aria-label="aria.github" aria-label="GitHub">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M9 19c-4 1.2-4-2-5-2.5m10 4v-3.9c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6A4.7 4.7 0 0 0 17.7 5 4.3 4.3 0 0 0 17.6 2s-1.1-.3-3.6 1.3a12.3 12.3 0 0 0-6.5 0C5 1.7 3.9 2 3.9 2a4.3 4.3 0 0 0-.1 3A4.7 4.7 0 0 0 2.5 8.6c0 4.6 2.7 5.7 5.5 6-.6.5-.9 1.1-.9 2V21"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="node stack-node" id="stack">
+          <div class="node-header">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="m12 3 8 4.5-8 4.5-8-4.5L12 3Zm8 9-8 4.5L4 12m16 4.5L12 21l-8-4.5" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <h3 data-i18n="stack.title">Stack Layers</h3>
+          </div>
+
+          <section class="skill-group">
+            <p class="skill-label" data-i18n="stack.backend">Backend & Architecture</p>
+            <div class="pill-list">
+              <span class="pill">Java</span>
+              <span class="pill">Spring Boot</span>
+              <span class="pill">Spring Cloud</span>
+              <span class="pill">PostgreSQL</span>
+              <span class="pill">Redis</span>
+              <span class="pill">AWS</span>
+            </div>
+          </section>
+
+          <section class="skill-group">
+            <p class="skill-label" data-i18n="stack.ai">AI & LLM Engineering</p>
+            <div class="pill-list">
+              <span class="pill">LLM 应用</span>
+              <span class="pill">RAG</span>
+              <span class="pill">Agent 开发</span>
+              <span class="pill">MCP / A2A</span>
+              <span class="pill">NLP</span>
+            </div>
+          </section>
+
+          <section class="skill-group">
+            <p class="skill-label" data-i18n="stack.infra">Engineering & Infra</p>
+            <div class="pill-list">
+              <span class="pill">Docker</span>
+              <span class="pill">Linux</span>
+            </div>
+          </section>
+        </article>
+
+        <article class="node project-node" id="projects">
+          <div class="node-header">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <path d="M6 5h5v5H6V5Zm7 4h5v5h-5V9ZM6 14h5v5H6v-5Zm5-6h2m-2 9h2m3-3v3h-3" stroke="currentColor"
+                stroke-width="2" stroke-linejoin="round" />
+            </svg>
+            <h3 data-i18n="projects.title">Repository Map</h3>
+          </div>
+
+          <div class="project-list">
+            <section class="project-entry">
+              <div class="entry-top">
+                <h4 data-i18n="projects.item1.title">Order Agent 服务</h4>
+                <span>Agent / LLM</span>
+              </div>
+              <p data-i18n="projects.item1.desc">基于大模型 + Function Calling 的对话式下单助手，支持多轮填单、表单实时联动、权限校验与安全合规。</p>
+            </section>
+
+            <section class="project-entry">
+              <div class="entry-top">
+                <h4><a href="https://github.com/tallyblue123/scratch_tools" target="_blank" rel="noreferrer"
+                    data-i18n="projects.item4.title">Scratch Tools</a></h4>
+                <span>Toolkit</span>
+              </div>
+              <p data-i18n="projects.item4.desc">个人开发效率工具集，日常脚本与各类实用工具的集中仓库。</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="node personal-node" id="personal">
+          <div class="node-header">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="2" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2" />
+              <rect x="14" y="2" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2" />
+              <rect x="2" y="14" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2" />
+              <rect x="14" y="14" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="2" />
+            </svg>
+            <h3 data-i18n="personal.title">更多项目经历</h3>
+          </div>
+
+
+          <section class="project-entry">
+            <figure class="project-thumb">
+              <img src="assets/bigfacekitty-mascot.jpg" data-i18n-attr-alt="alt.project1" alt="项目预览" />
+            </figure>
+            <div class="entry-top">
+              <h4><a href="https://tallyblue123.github.io/scratch_tools/gen_password_scratch/web/index.html"
+                  target="_blank" rel="noreferrer" data-i18n="personal.item3.title">密码生成器</a></h4>
+              <span>Web App</span>
+            </div>
+            <p data-i18n="personal.item3.desc">随机密码在线生成工具，支持长度/字符集自定义，部署在 GitHub Pages。</p>
+          </section>
+  </div>
+  </article>
+
+
+  <section class="cat-stage" data-i18n-attr-aria-label="aria.catStage" aria-label="互动猫咪">
+    <div class="cat-wrap">
+      <model-viewer id="catModel" class="cat-model" src="assets/bigfacekitty-cat.glb"
+        data-fallback-src="assets/bigfacekitty-cat.glb" camera-orbit="0deg 71deg 8m" camera-target="0m 0.48m 0m"
+        field-of-view="32deg" exposure="1.05" shadow-intensity="0.85" shadow-softness="0.9" autoplay
+        animation-name="idle" interaction-prompt="none" disable-zoom data-i18n-attr-alt="alt.cat"
+        alt="可互动的 3D 黑猫 Jessie Feng的虚拟伙伴"></model-viewer>
+      <div class="chat-bubble" id="chatBubble" role="status" aria-live="polite">
+        <strong>BigFaceKitty</strong>
+        <p id="chatText">把鼠标放到我身上，我会跟你聊几句。</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="canvas-hint" data-i18n="canvas.hint">scroll the canvas · hover the cat</div>
+  </section>
+  </main>
+  </div>
+
+  <script>
+    (() => {
+      const workspace = document.getElementById("workspace");
+      const canvas = document.getElementById("workspaceCanvas");
+      const ctx = canvas.getContext("2d");
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+
+      function resizeCanvas() {
+        const rect = workspace.getBoundingClientRect();
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+        canvas.style.width = `${rect.width}px`;
+        canvas.style.height = `${rect.height}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        drawWorkspace(rect.width, rect.height);
+      }
+
+      function drawBezier(points) {
+        ctx.beginPath();
+        ctx.moveTo(points[0], points[1]);
+        ctx.bezierCurveTo(points[2], points[3], points[4], points[5], points[6], points[7]);
+        ctx.stroke();
+      }
+
+      function drawWorkspace(width, height) {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = "#f9f9f7";
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.fillStyle = "rgba(175, 179, 176, 0.24)";
+        for (let x = 12; x < width; x += 24) {
+          for (let y = 12; y < height; y += 24) {
+            ctx.beginPath();
+            ctx.arc(x, y, 1.05, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        ctx.strokeStyle = "rgba(175, 179, 176, 0.48)";
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([6, 8]);
+        ctx.lineCap = "round";
+        drawBezier([380, 215, 500, 90, 650, 115, 780, 205]);
+        drawBezier([665, 300, 750, 220, 845, 218, 990, 252]);
+        drawBezier([650, 595, 745, 655, 825, 695, 940, 675]);
+        drawBezier([940, 880, 900, 850, 870, 780, 862, 720]);
+        drawBezier([310, 220, 360, 130, 455, 95, 560, 105]);
+        ctx.setLineDash([]);
+      }
+
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+    })();
+
+    (() => {
+      const model = document.getElementById("catModel");
+      const bubble = document.getElementById("chatBubble");
+      const text = document.getElementById("chatText");
+      function getMessages() {
+        return I18N.catMessages();
+      }
+
+      const state = {
+        hover: false,
+        orbitX: 0,
+        orbitY: 71,
+        targetOrbitX: 0,
+        targetOrbitY: 71
+      };
+
+      function setMessage() {
+        const msgs = getMessages();
+        text.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+        bubble.classList.add("visible");
+        if (typeof model.play === "function") model.play();
+      }
+
+      function updatePointer(event) {
+        const rect = model.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+        state.targetOrbitX = Math.max(-24, Math.min(24, x * 44));
+        state.targetOrbitY = Math.max(61, Math.min(80, 71 + y * 20));
+      }
+
+      model.addEventListener("load", () => {
+        model.animationName = "idle";
+        if (typeof model.play === "function") model.play();
+      });
+
+
+      model.addEventListener("pointerenter", (event) => {
+        state.hover = true;
+        updatePointer(event);
+        setMessage();
+      });
+
+      model.addEventListener("pointermove", updatePointer);
+
+      model.addEventListener("pointerleave", () => {
+        state.hover = false;
+        state.targetOrbitX = 0;
+        state.targetOrbitY = 71;
+        setTimeout(() => {
+          if (!state.hover) bubble.classList.remove("visible");
+        }, 750);
+      });
+
+      model.addEventListener("click", setMessage);
+
+      function tick() {
+        state.orbitX += (state.targetOrbitX - state.orbitX) * 0.08;
+        state.orbitY += (state.targetOrbitY - state.orbitY) * 0.08;
+        model.setAttribute("camera-orbit", `${state.orbitX.toFixed(2)}deg ${state.orbitY.toFixed(2)}deg 8m`);
+        requestAnimationFrame(tick);
+      }
+
+      tick();
+    })();
+  </script>
+</body>
+
+</html>
