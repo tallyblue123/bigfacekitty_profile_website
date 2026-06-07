@@ -265,7 +265,7 @@
 
     .bio-node {
       top: 185px;
-      left: 355px;
+      left: 415px;
       width: 320px;
       min-height: 378px;
       text-align: center;
@@ -359,13 +359,13 @@
 
     .stack-node {
       top: 76px;
-      left: 780px;
+      left: 850px;
       width: 288px;
     }
 
     .project-node {
       top: 560px;
-      left: 955px;
+      left: 1045px;
       width: 320px;
     }
 
@@ -382,7 +382,7 @@
 
     .personal-node {
       top: 730px;
-      left: 500px;
+      left: 550px;
       width: 422px;
     }
 
@@ -415,7 +415,7 @@
 
     .note-node {
       top: 95px;
-      left: 140px;
+      left: 200px;
       width: 244px;
       background: rgba(255, 240, 194, 0.84);
       box-shadow: 0 12px 36px rgba(127, 87, 0, 0.09);
@@ -1016,10 +1016,10 @@
 
   <section class="cat-stage" data-i18n-attr-aria-label="aria.catStage" aria-label="互动猫咪">
     <div class="cat-wrap">
-      <model-viewer id="catModel" class="cat-model" src="assets/bigfacekitty-cat.glb"
-        data-fallback-src="assets/bigfacekitty-cat.glb" camera-orbit="0deg 71deg 8m" camera-target="0m 0.48m 0m"
-        field-of-view="32deg" exposure="1.05" shadow-intensity="0.85" shadow-softness="0.9" autoplay
-        animation-name="idle" interaction-prompt="none" disable-zoom data-i18n-attr-alt="alt.cat"
+      <model-viewer id="catModel" class="cat-model" src="assets/bigfacekitty-cat.optimized.glb"
+        data-fallback-src="assets/bigfacekitty-cat.optimized.glb" camera-orbit="0deg 71deg 8m"
+        camera-target="0m 0.48m 0m" field-of-view="32deg" exposure="1.05" shadow-intensity="0.85" shadow-softness="0.9"
+        autoplay animation-name="idle" interaction-prompt="none" disable-zoom data-i18n-attr-alt="alt.cat"
         alt="可互动的 3D 黑猫 Jessie Feng的虚拟伙伴"></model-viewer>
       <div class="chat-bubble" id="chatBubble" role="status" aria-live="polite">
         <strong>BigFaceKitty</strong>
@@ -1075,11 +1075,11 @@
         ctx.lineWidth = 1.5;
         ctx.setLineDash([6, 8]);
         ctx.lineCap = "round";
-        drawBezier([380, 215, 500, 90, 650, 115, 780, 205]);
-        drawBezier([665, 300, 750, 220, 845, 218, 990, 252]);
-        drawBezier([650, 595, 745, 655, 825, 695, 940, 675]);
-        drawBezier([940, 880, 900, 850, 870, 780, 862, 720]);
-        drawBezier([310, 220, 360, 130, 455, 95, 560, 105]);
+        drawBezier([444, 157, 600, 100, 730, 105, 850, 130]);
+        drawBezier([735, 374, 790, 220, 900, 180, 1000, 200]);
+        drawBezier([735, 480, 850, 500, 950, 560, 1045, 620]);
+        drawBezier([1045, 660, 1000, 700, 980, 730, 972, 750]);
+        drawBezier([322, 157, 370, 120, 390, 200, 415, 270]);
         ctx.setLineDash([]);
       }
 
