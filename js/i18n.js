@@ -52,7 +52,7 @@
       'projects.item3.title': '邮件管理服务',
       'projects.item3.desc': '重构邮件服务，实现邮件监控、查询、重发与模板管理，基于 Spring Boot + AWS SQS + PostgreSQL。',
       'projects.item4.title': 'Scratch Tools',
-      'projects.item4.desc': '个人开发效率工具集，日常脚本与各类实用工具的集中仓库。',
+      'projects.item4.desc': '个人开发效率工具集，包含 Productivity Widgets（Windows 11 透明桌面月历 + 四象限待办）等实用工具。',
 
       /* ── Personal node ── */
       'personal.title': '个人App',
@@ -62,6 +62,8 @@
       'personal.item2.desc': '封装 Cypress 通用测试组件与自定义命令库，对接 Jenkins 实现代码提交自动触发测试与结果通知。',
       'personal.item3.title': '密码生成器',
       'personal.item3.desc': '随机密码在线生成工具，支持长度/字符集自定义，部署在 GitHub Pages。',
+      'personal.item4.title': 'Productivity Widgets',
+      'personal.item4.desc': 'Windows 11 透明桌面效率小工具，Tauri 构建，包含月历 + 四象限待办。',
 
       /* ── Timeline node ── */
       'timeline.title': '工作经历 Timeline',
@@ -155,7 +157,7 @@
       'projects.item3.title': 'Email Management Service',
       'projects.item3.desc': 'Refactored email service with monitoring, querying, retry, and template management, built on Spring Boot + AWS SQS + PostgreSQL.',
       'projects.item4.title': 'Scratch Tools',
-      'projects.item4.desc': 'Personal dev toolkit — a central repo of daily scripts and utility tools.',
+      'projects.item4.desc': 'Personal dev toolkit featuring Productivity Widgets (Windows 11 transparent desktop calendar + 4-quadrant todo), alongside scripts and utility tools.',
 
       /* ── Personal node ── */
       'personal.title': 'Personal App',
@@ -165,6 +167,8 @@
       'personal.item2.desc': 'Wrapped Cypress with reusable test components and custom commands, integrated with Jenkins for CI-driven automated regression testing and reporting.',
       'personal.item3.title': 'Password Generator',
       'personal.item3.desc': 'Online random password generator with customizable length and character sets, hosted on GitHub Pages.',
+      'personal.item4.title': 'Productivity Widgets',
+      'personal.item4.desc': 'Windows 11 transparent desktop widget built with Tauri — monthly calendar + 4-quadrant todo with recurring tasks.',
 
       /* ── Timeline node ── */
       'timeline.title': 'Work Experience',
